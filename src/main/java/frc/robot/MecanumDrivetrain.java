@@ -7,8 +7,6 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 
@@ -24,7 +22,7 @@ public class MecanumDrivetrain {
     }
 
     public void drive(Joystick stick) {
-        mecanumDrive.mecanumDrive_Cartesian(stick.getRawAxis(4), stick.getRawAxis(5), 0, 0);
+        mecanumDrive.mecanumDrive_Cartesian(stick.getX(), stick.getY(), stick.getZ(), 0);
     }
     
 }

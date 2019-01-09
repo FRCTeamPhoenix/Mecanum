@@ -36,7 +36,7 @@ public class Robot extends IterativeRobot {
   WPI_TalonSRX talonBL;
 
   public Robot() {
-    //this.drive = new MecanumDrivetrain(1, 2, 3, 4);
+    // this.drive = new MecanumDrivetrain(1, 2, 3, 4);
     talonBL = new WPI_TalonSRX(1);
     talonBR = new WPI_TalonSRX(2);
     talonFL = new WPI_TalonSRX(3);
@@ -45,8 +45,8 @@ public class Robot extends IterativeRobot {
   }
 
   /**
-   * This function is run when the robot is first started up and should be
-   * used for any initialization code.
+   * This function is run when the robot is first started up and should be used
+   * for any initialization code.
    */
   @Override
   public void robotInit() {
@@ -54,12 +54,13 @@ public class Robot extends IterativeRobot {
   }
 
   /**
-   * This function is called every robot packet, no matter the mode. Use
-   * this for items like diagnostics that you want ran during disabled,
-   * autonomous, teleoperated and test.
+   * This function is called every robot packet, no matter the mode. Use this for
+   * items like diagnostics that you want ran during disabled, autonomous,
+   * teleoperated and test.
    *
-   * <p>This runs after the mode specific periodic functions, but before
-   * LiveWindow and SmartDashboard integrated updating.
+   * <p>
+   * This runs after the mode specific periodic functions, but before LiveWindow
+   * and SmartDashboard integrated updating.
    */
   @Override
   public void robotPeriodic() {
@@ -67,14 +68,15 @@ public class Robot extends IterativeRobot {
 
   /**
    * This autonomous (along with the chooser code above) shows how to select
-   * between different autonomous modes using the dashboard. The sendable
-   * chooser code works with the Java SmartDashboard. If you prefer the
-   * LabVIEW Dashboard, remove all of the chooser code and uncomment the
-   * getString line to get the auto name from the text box below the Gyro
+   * between different autonomous modes using the dashboard. The sendable chooser
+   * code works with the Java SmartDashboard. If you prefer the LabVIEW Dashboard,
+   * remove all of the chooser code and uncomment the getString line to get the
+   * auto name from the text box below the Gyro
    *
-   * <p>You can add additional auto modes by adding additional comparisons to
-   * the switch structure below with additional strings. If using the
-   * SendableChooser make sure to add them to the chooser code above as well.
+   * <p>
+   * You can add additional auto modes by adding additional comparisons to the
+   * switch structure below with additional strings. If using the SendableChooser
+   * make sure to add them to the chooser code above as well.
    */
   @Override
   public void autonomousInit() {
@@ -90,14 +92,22 @@ public class Robot extends IterativeRobot {
   @Override
   public void autonomousPeriodic() {
     switch (m_autoSelected) {
-      case kCustomAuto:
-        // Put custom auto code here
-        break;
-      case kDefaultAuto:
-      default:
-        // Put default auto code here
-        break;
+    case kCustomAuto:
+      // Put custom auto code here
+      break;
+    case kDefaultAuto:
+    default:
+      // Put default auto code here
+      break;
     }
+  }
+
+  @Override
+  public void teleopInit() {
+    talonFL.setSelectedSensorPosition(0);
+    talonFR.setSelectedSensorPosition(0);
+    talonBR.setSelectedSensorPosition(0);
+    talonBL.setSelectedSensorPosition(0);
   }
 
   /**
@@ -105,15 +115,24 @@ public class Robot extends IterativeRobot {
    */
   @Override
   public void teleopPeriodic() {
-    //drive.drive(stick);
-    double inX = stick.getX();
-    double inY = -stick.getY();
-    double rotation = stick.getZ();
-    talonFL.set(ControlMode.PercentOutput, (inX + inY + rotation) / 4.0);
-    talonBR.set(ControlMode.PercentOutput, -(inX + inY - rotation) / 4.0);
-    talonFR.set(ControlMode.PercentOutput, -(inY - inX - rotation) / 4.0);
-    talonBL.set(ControlMode.PercentOutput, (inY - inX + rotation) / 4.0);
-    //talonFR.set(ControlMode.PercentOutput, stick.getRawAxis(4));
+    // drive.drive(stick);
+    double inX = stick.getRawAxis(0);
+    double inY = -stick.getRawAxis(1);
+    double rotation = stick.getRawAxis(2);
+    talonFL.set(ControlMode.PercentOutput,  (inX + inY + rotation) / 4.0);
+    talonBR.set(ControlMode.PercentOutput,  -(inX + inY - rotation) / 4.0);
+    talonFR.set(ControlMode.PercentOutput,  -(inY - inX - rotation) / 4.0);
+    talonBL.set(ControlMode.PercentOutput,  (inY - inX + rotation) / 4.0);
+    /*talonFL.set(ControlMode.PercentOutput,  0.5);
+    talonBR.set(ControlMode.PercentOutput,  -0.5);
+    talonFR.set(ControlMode.PercentOutput,  -0.5);
+    talonBL.set(ControlMode.PercentOutput,  0.5);*/
+
+    SmartDashboard.putString("DB/String 0", ""+talonFL.getSelectedSensorPosition());
+    SmartDashboard.putString("DB/String 1", ""+talonFR.getSelectedSensorPosition());
+    SmartDashboard.putString("DB/String 2", ""+talonBL.getSelectedSensorPosition());
+    SmartDashboard.putString("DB/String 3", ""+talonBR.getSelectedSensorPosition());
+    // talonFR.set(ControlMode.PercentOutput, stick.getRawAxis(4));
   }
 
   /**
