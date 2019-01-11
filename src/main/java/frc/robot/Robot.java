@@ -118,20 +118,26 @@ public class Robot extends IterativeRobot {
     // drive.drive(stick);
     double inX = stick.getRawAxis(0);
     double inY = -stick.getRawAxis(1);
-    double rotation = stick.getRawAxis(2);
-    talonFL.set(ControlMode.PercentOutput,  (inX + inY + rotation) / 4.0);
-    talonBR.set(ControlMode.PercentOutput,  -(inX + inY - rotation) / 4.0);
-    talonFR.set(ControlMode.PercentOutput,  -(inY - inX - rotation) / 4.0);
-    talonBL.set(ControlMode.PercentOutput,  (inY - inX + rotation) / 4.0);
+    double rotation = -stick.getRawAxis(4);
+
+    double speedDenominator = 1.0;
+    talonFL.set(ControlMode.PercentOutput,  -(inX + inY + rotation) / speedDenominator);
+    talonBR.set(ControlMode.PercentOutput,  (inX + inY - rotation) / speedDenominator);
+    talonFR.set(ControlMode.PercentOutput,  (inY - inX - rotation) / speedDenominator);
+    talonBL.set(ControlMode.PercentOutput,  -(inY - inX + rotation) / speedDenominator);
     /*talonFL.set(ControlMode.PercentOutput,  0.5);
     talonBR.set(ControlMode.PercentOutput,  -0.5);
     talonFR.set(ControlMode.PercentOutput,  -0.5);
     talonBL.set(ControlMode.PercentOutput,  0.5);*/
 
-    SmartDashboard.putString("DB/String 0", ""+talonFL.getSelectedSensorPosition());
-    SmartDashboard.putString("DB/String 1", ""+talonFR.getSelectedSensorPosition());
-    SmartDashboard.putString("DB/String 2", ""+talonBL.getSelectedSensorPosition());
-    SmartDashboard.putString("DB/String 3", ""+talonBR.getSelectedSensorPosition());
+    SmartDashboard.putString("DB/String 0", ""+(inX + inY + rotation) / 4.0);
+    SmartDashboard.putString("DB/String 1", ""+ -(inX + inY - rotation) / 4.0);
+    SmartDashboard.putString("DB/String 2", ""+ -(inY - inX - rotation) / 4.0);
+    SmartDashboard.putString("DB/String 3", ""+(inY - inX + rotation) / 4.0);
+
+    SmartDashboard.putString("DB/String 5", ""+inX);
+    SmartDashboard.putString("DB/String 6", ""+inY);
+    SmartDashboard.putString("DB/String 7", ""+rotation);
     // talonFR.set(ControlMode.PercentOutput, stick.getRawAxis(4));
   }
 
